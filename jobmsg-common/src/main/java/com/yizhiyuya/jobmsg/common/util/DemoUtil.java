@@ -1,4 +1,4 @@
-package com.yizhiyuya.jobmsg.admin.common.util;
+package com.yizhiyuya.jobmsg.common.util;
 
 import cn.hutool.core.util.IdUtil;
 

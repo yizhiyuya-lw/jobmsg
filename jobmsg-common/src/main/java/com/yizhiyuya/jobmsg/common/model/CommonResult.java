@@ -1,4 +1,4 @@
-package com.yizhiyuya.jobmsg.admin.common.model;
+package com.yizhiyuya.jobmsg.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
