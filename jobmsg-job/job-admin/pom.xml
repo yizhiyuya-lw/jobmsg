@@ -32,6 +32,21 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
+        <!-- openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.yizhiyuya</groupId>
+            <artifactId>jobmsg-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--web + actuator-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,4 +1,4 @@
-import com.yizhiyuya.jobmsg.common.util.DemoUtil;
+import com.yizhiyuya.jobmsg.admin.common.util.DemoUtil;
 
 /**
  * @author lw
