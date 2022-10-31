@@ -17,5 +17,17 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.jdbc.Driver
-  config:
-    import:
+    druid:
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      filters: stat
+      async-init: true
