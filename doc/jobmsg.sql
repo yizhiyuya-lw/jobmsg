@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `job_log`;
 CREATE TABLE `job_log`  (
   `l_id` int(11) NOT NULL COMMENT '主键id',
   `l_job_id` int(11) NOT NULL COMMENT '任务id',
-  `vc_executor_handler` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行handler类名',
+  `vc_executor_type` int(11) NOT NULL COMMENT '任务类型',
   `vc_executor_param` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行参数',
   `d_trigger_time` datetime NOT NULL COMMENT '任务触发时间',
   `l_trigger_code` int(11) NOT NULL COMMENT '触发结果code',
