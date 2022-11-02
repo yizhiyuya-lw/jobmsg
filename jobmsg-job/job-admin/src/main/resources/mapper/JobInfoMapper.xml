@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yizhiyuya.jobmsg.admin.mapper.JobInfoMapper">
+    <resultMap id="resultMap" type="com.yizhiyuya.jobmsg.job.common.model.JobInfo">
+        <id column="l_id" property="id" jdbcType="INTEGER"/>
+        <result column="vc_job_desc" property="jobDesc" jdbcType="VARCHAR"/>
+        <result column="d_add_time" property="addTime" jdbcType="DATE"/>
+        <result column="d_update_time" property="updateTime" jdbcType="DATE"/>
+        <result column="vc_userid" property="userId" jdbcType="VARCHAR"/>
+        <result column="vc_alarm_type" property="alarmType" jdbcType="VARCHAR"/>
+        <result column="vc_alarm_conf" property="alarmConf" jdbcType="VARCHAR"/>
+        <result column="vc_schedule_type" property="scheduleType" jdbcType="VARCHAR"/>
+        <result column="vc_schedule_conf" property="scheduleConf" jdbcType="VARCHAR"/>
+        <result column="vc_expired_policy" property="expiredPolicy" jdbcType="VARCHAR"/>
+        <result column="vc_executor_type" property="executorType" jdbcType="VARCHAR"/>
+        <result column="vc_executor_param" property="executorParam" jdbcType="VARCHAR"/>
+        <result column="l_executor_timeout" property="executorTimeout" jdbcType="INTEGER"/>
+        <result column="l_executor_retry_count" property="executorRetryCount" jdbcType="INTEGER"/>
+        <result column="c_trigger_status" property="triggerStatus" jdbcType="CHAR"/>
+        <result column="l_trigger_last_time" property="triggerLastTime" jdbcType="BIGINT"/>
+        <result column="l_trigger_next_time" property="triggerNextTime" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="selectColumn">
+        t.l_id,t.vc_job_desc,t.d_add_time,t.d_update_time,t.vc_userid,
+        t.vc_alarm_type,t.vc_alarm_conf,t.vc_schedule_type,t.vc_schedule_conf,
+        t.vc_expired_policy,t.vc_executor_type,t.vc_executor_param,t.l_executor_timeout,
+        t.l_executor_retry_count,t.c_trigger_status,t.l_trigger_last_time,t.l_trigger_next_time
+    </sql>
+
+    <select id="selectById" resultMap="resultMap">
+        SELECT <include refid="selectColumn"></include>
+        FROM job_info t
+        WHERE t.l_id = #{jobId}
+    </select>
+
+    <select id="selectAllWaitExecuteJobInfo" resultMap="resultMap" parameterType="long">
+        SELECT <include refid="selectColumn"></include>
+        FROM job_info t
+        WHERE t.c_trigger_status = '1' AND t.l_trigger_next_time <![CDATA[ <= ]]> #{nextTriggerTime}
+        ORDER BY t.l_id ASC
+    </select>
+
+    <insert id="insert" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobInfo" useGeneratedKeys="true" keyProperty="l_id">
+        INSERT INTO
+        job_info(vc_job_desc,
+                 d_add_time,
+                 d_update_time,
+                 vc_userid,
+                 vc_alarm_type,
+                 vc_alarm_conf,
+                 vc_schedule_type,
+                 vc_schedule_conf,
+                 vc_expired_policy,
+                 vc_executor_type,
+                 vc_executor_param,
+                 l_executor_timeout,
+                 l_executor_retry_count,
+                 c_trigger_status,
+                 l_trigger_last_time,
+                 l_trigger_next_time)
+        VALUES(#{jobDesc},
+               #{addTime},
+               #{updateTime},
+               #{userId},
+               #{alarmType},
+               #{alarmConf},
+               #{scheduleType},
+               #{scheduleConf},
+               #{expiredPolicy},
+               #{executorType},
+               #{executorParam},
+               #{executorParam},
+               #{executorTimeout},
+               #{executorRetryCount},
+               #{triggerStatus},
+               #{triggerLastTime},
+               #{triggerNextTime})
+    </insert>
+
+    <update id="update" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobInfo">
+        UPDATE job_info t
+        SET t.vc_job_desc = #{jobDesc},
+            t.d_update_time = #{updateTime},
+            t.vc_userid = #{userId},
+            t.vc_alarm_type = #{alarmType},
+            t.vc_alarm_conf = #{alarmConf},
+            t.vc_schedule_type = #{scheduleType},
+            t.vc_schedule_conf = #{scheduleConf},
+            t.vc_expired_policy = #{expiredPolicy},
+            t.vc_executor_type = #{executorType},
+            t.vc_executor_param = #{executorParam},
+            t.l_executor_timeout = #{executorTimeout},
+            t.l_executor_retry_count = #{executorRetryCount},
+            t.c_trigger_status = #{triggerStatus},
+            t.l_trigger_next_time = #{triggerNextTime}
+        WHERE t.l_id = #{id}
+    </update>
+
+    <update id="updateNextTriggerTime">
+        UPDATE job_info t
+        SET t.l_trigger_last_time = t.l_trigger_next_time,
+            t.l_trigger_next_time = #{nextTriggerTime}
+        WHERE t.l_id = #{jobId}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM job_info t WHERE t.l_id = #{jobId}
+    </delete>
+
+</mapper>

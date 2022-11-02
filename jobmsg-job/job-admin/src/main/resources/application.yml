@@ -31,3 +31,5 @@ spring:
       min-evictable-idle-time-millis: 30000
       filters: stat
       async-init: true
+mybatis:
+  mapper-locations: classpath:/mapper/*Mapper.xml

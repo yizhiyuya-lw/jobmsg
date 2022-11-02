@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yizhiyuya.jobmsg.admin.mapper.JobLogMapper">
+    <resultMap id="resultMap" type="com.yizhiyuya.jobmsg.job.common.model.JobLog">
+        <id column="l_id" property="id" jdbcType="INTEGER"/>
+        <result column="l_job_id" property="jobId" jdbcType="INTEGER"/>
+        <result column="vc_run_status" property="runStatus" jdbcType="VARCHAR"/>
+        <result column="vc_executor_type" property="executorType" jdbcType="VARCHAR"/>
+        <result column="vc_executor_param" property="executorParam" jdbcType="VARCHAR"/>
+        <result column="d_trigger_time" property="triggerTime" jdbcType="DATE"/>
+        <result column="l_trigger_code" property="triggerCode" jdbcType="INTEGER"/>
+        <result column="vc_trigger_msg" property="triggerMsg" jdbcType="VARCHAR"/>
+        <result column="d_handle_time" property="handleTime" jdbcType="DATE"/>
+        <result column="l_handle_code" property="handleCode" jdbcType="INTEGER"/>
+        <result column="vc_handle_msg" property="handleMsg" jdbcType="VARCHAR"/>
+        <result column="l_alarm_status" property="alarmStatus" jdbcType="TINYINT"/>
+        <result column="l_retry_count" property="retryCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="selectColumn">
+        t.l_id,t.l_job_id,t.vc_run_status,t.vc_executor_type,t.vc_executor_param,t.d_trigger_time,t.l_trigger_code,t.vc_trigger_msg,
+        t.d_handle_time,t.l_handle_code,t.vc_handle_msg,t.l_alarm_status,t.l_retry_count
+    </sql>
+
+    <insert id="insert" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog" useGeneratedKeys="true" keyProperty="l_id">
+        INSERT INTO
+        job_log(l_job_id,
+                vc_run_status,
+                vc_executor_type,
+                vc_executor_param,
+                d_trigger_time,
+                l_trigger_code,
+                vc_trigger_msg,
+                d_handle_time,
+                l_handle_code,
+                vc_handle_msg,
+                l_alarm_status,
+                l_retry_count)
+        VALUES(#{jobId},
+               #{runStatus},
+               #{executorType},
+               #{executorParam},
+               #{triggerTime},
+               #{triggerCode},
+               #{triggerMsg},
+               #{handleTime},
+               #{handleCode},
+               #{handleMsg},
+               #{alarmStatus},
+               #{retryCount}
+               )
+    </insert>
+
+    <update id="update" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog">
+        UPDATE job_log t
+        SET t.l_job_id = #{jobId},
+            t.vc_run_status = #{runStatus},
+            t.vc_executor_type = #{executorType},
+            t.vc_executor_param = #{executorParam},
+            t.d_trigger_time = #{triggerTime},
+            t.l_trigger_code = #{triggerCode},
+            t.vc_trigger_msg = #{triggerMsg},
+            t.d_handle_time = #{handleTime},
+            t.l_handle_code = #{handleCode},
+            t.vc_handle_msg = #{handleMsg},
+            t.l_alarm_status = #{alarmStatus},
+            t.l_retry_count = #{retryCount}
+        WHERE t.l_id = #{id}
+    </update>
+
+</mapper>

@@ -33,7 +33,7 @@ CREATE TABLE `job_info`  (
   `vc_schedule_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '调度类型，CRON:cron表达式',
   `vc_schedule_conf` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '调度配置，如类型为CRON，则需配置cron具体表达式',
   `vc_expired_policy` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '过期策略，DO_NOTHING：跳过不执行，EXEC_ONCE_NOW:立即执行一次',
-  `vc_executor_handler` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行类名',
+  `vc_executor_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行类名',
   `vc_executor_param` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行参数，json格式',
   `l_executor_timeout` int(11) NOT NULL DEFAULT -1 COMMENT '任务执行超时时间，单位：秒，-1表示不用处理',
   `l_executor_retry_count` int(11) NOT NULL DEFAULT -1 COMMENT '任务失败重试次数，-1表示不需处理',
