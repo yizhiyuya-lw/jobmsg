@@ -48,19 +48,20 @@ CREATE TABLE `job_info`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `job_log`;
 CREATE TABLE `job_log`  (
-  `l_id` int(11) NOT NULL COMMENT '主键id',
-  `l_job_id` int(11) NOT NULL COMMENT '任务id',
-  `vc_executor_type` int(11) NOT NULL COMMENT '任务类型',
-  `vc_executor_param` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行参数',
-  `d_trigger_time` datetime NOT NULL COMMENT '任务触发时间',
-  `l_trigger_code` int(11) NOT NULL COMMENT '触发结果code',
-  `vc_trigger_msg` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '触发结果msg',
-  `d_handle_time` datetime NOT NULL COMMENT '任务开始执行时间',
-  `l_handle_code` int(11) NOT NULL COMMENT '任务执行结果code',
-  `vc_handle_msg` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行结果msg',
-  `l_alarm_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务执行失败通知结果：0默认，1无需通知，2通知成功，3通知失败',
-  `l_retry_count` int(11) NOT NULL DEFAULT 0 COMMENT '重试次数：0默认',
-  PRIMARY KEY (`l_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+    `l_id` int(11) NOT NULL COMMENT '主键id',
+    `l_job_id` int(11) NOT NULL COMMENT '任务id',
+    `vc_executor_type` varchar(25) NOT NULL COMMENT '任务类型',
+    `vc_run_status` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务状态',
+    `vc_executor_param` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行参数',
+    `d_trigger_time` datetime NOT NULL COMMENT '任务触发时间',
+    `l_trigger_code` int(11) NOT NULL COMMENT '触发结果code',
+    `vc_trigger_msg` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '触发结果msg',
+    `d_handle_time` datetime NOT NULL COMMENT '任务开始执行时间',
+    `l_handle_code` int(11) NOT NULL COMMENT '任务执行结果code',
+    `vc_handle_msg` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '任务执行结果msg',
+    `l_alarm_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '任务执行失败通知结果：0默认，1无需通知，2通知成功，3通知失败',
+    `l_retry_count` int(11) NOT NULL DEFAULT 0 COMMENT '重试次数：0默认',
+    PRIMARY KEY (`l_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
