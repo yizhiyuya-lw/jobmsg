@@ -1,6 +1,5 @@
 package com.yizhiyuya.jobmsg.job.common.model;
 
-import com.yizhiyuya.jobmsg.common.constant.ExecutorType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
