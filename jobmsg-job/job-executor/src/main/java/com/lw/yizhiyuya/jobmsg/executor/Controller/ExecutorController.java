@@ -1,5 +1,6 @@
 package com.lw.yizhiyuya.jobmsg.executor.Controller;
 
+import com.lw.yizhiyuya.jobmsg.executor.handler.JobExecuteHandler;
 import com.yizhiyuya.jobmsg.common.model.CommonResult;
 import com.yizhiyuya.jobmsg.job.common.model.TriggerParam;
 import org.slf4j.Logger;
@@ -25,7 +26,12 @@ public class ExecutorController {
 
     @PostMapping("/execute")
     public CommonResult<String> execute(@RequestBody TriggerParam triggerParam) {
-        logger.info("任务请求已接受：{}", triggerParam);
-        return CommonResult.successResult();
+        try {
+            JobExecuteHandler.getInstance().pushJobTrigger(triggerParam);
+            return CommonResult.successResult();
+        } catch (Exception e) {
+            return CommonResult.errorResult(e.getMessage());
+        }
+
     }
 }

@@ -13,4 +13,6 @@ public interface JobLogMapper {
     int insertJobLog(JobLog jobLog);
 
     int updateJobLog(JobLog jobLog);
+
+    int updateJobResult(JobLog jobLog);
 }

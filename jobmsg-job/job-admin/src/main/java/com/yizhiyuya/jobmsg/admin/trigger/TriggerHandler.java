@@ -80,7 +80,7 @@ public class TriggerHandler {
             TriggerParam triggerParam = new TriggerParam();
             triggerParam.setJobId(jobInfo.getId());
             triggerParam.setTriggerTime(jobInfo.getTriggerNextTime());
-            triggerParam.setJobId(jobLog.getId());
+            triggerParam.setLogId(jobLog.getId());
             triggerParam.setExecutorType(jobInfo.getExecutorType());
             triggerParam.setExecutorParam(jobInfo.getExecutorParam());
             triggerParam.setExecutorTimeout(jobInfo.getExecutorTimeout());

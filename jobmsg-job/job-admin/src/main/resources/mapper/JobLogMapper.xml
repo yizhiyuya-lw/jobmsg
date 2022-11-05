@@ -70,4 +70,15 @@
         WHERE t.l_id = #{id}
     </update>
 
+    <update id="updateJobResult" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog">
+        UPDATE job_log t
+        SET t.vc_run_status = #{runStatus},
+            t.d_handle_time = #{handleTime},
+            t.l_handle_code = #{handleCode},
+            t.vc_handle_msg = #{handleMsg},
+            t.l_alarm_status = #{alarmStatus},
+            t.l_retry_count = #{retryCount}
+        WHERE t.l_id = #{id}
+    </update>
+
 </mapper>
