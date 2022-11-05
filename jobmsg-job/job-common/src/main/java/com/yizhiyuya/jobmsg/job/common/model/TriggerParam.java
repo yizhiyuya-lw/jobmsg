@@ -15,7 +15,7 @@ public class TriggerParam {
 
     private Integer jobId; /*任务id*/
     private Long triggerTime; /*当前任务执行时间毫秒值*/
-    private Long logId; /*日志id，用于回调*/
+    private Integer logId; /*日志id，用于回调*/
     private String executorType; /*任务类型*/
     private String executorParam; /*任务执行参数*/
     private Integer executorTimeout; /*任务执行超时时间*/

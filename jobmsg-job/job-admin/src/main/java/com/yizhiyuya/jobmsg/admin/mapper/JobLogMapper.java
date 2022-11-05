@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface JobLogMapper {
 
-    int insert(JobLog jobLog);
+    int insertJobLog(JobLog jobLog);
 
-    int update(JobLog jobLog);
+    int updateJobLog(JobLog jobLog);
 }

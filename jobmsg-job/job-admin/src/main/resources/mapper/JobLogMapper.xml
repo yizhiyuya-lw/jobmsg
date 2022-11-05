@@ -24,7 +24,7 @@
         t.d_handle_time,t.l_handle_code,t.vc_handle_msg,t.l_alarm_status,t.l_retry_count
     </sql>
 
-    <insert id="insert" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog" useGeneratedKeys="true" keyProperty="l_id">
+    <insert id="insertJobLog" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
         job_log(l_job_id,
                 vc_run_status,
@@ -53,7 +53,7 @@
                )
     </insert>
 
-    <update id="update" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog">
+    <update id="updateJobLog" parameterType="com.yizhiyuya.jobmsg.job.common.model.JobLog">
         UPDATE job_log t
         SET t.l_job_id = #{jobId},
             t.vc_run_status = #{runStatus},

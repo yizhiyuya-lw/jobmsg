@@ -1,9 +1,11 @@
 package com.lw.yizhiyuya.jobmsg.executor.Controller;
 
 import com.yizhiyuya.jobmsg.common.model.CommonResult;
+import com.yizhiyuya.jobmsg.job.common.model.TriggerParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,5 +21,11 @@ public class ExecutorController {
     public CommonResult<String> first(@RequestParam("param") String param) {
         logger.info("get param: {}", param);
         return new CommonResult<>(200, "success", param);
+    }
+
+    @PostMapping("/execute")
+    public CommonResult<String> execute(@RequestBody TriggerParam triggerParam) {
+        logger.info("任务请求已接受：{}", triggerParam);
+        return CommonResult.successResult();
     }
 }

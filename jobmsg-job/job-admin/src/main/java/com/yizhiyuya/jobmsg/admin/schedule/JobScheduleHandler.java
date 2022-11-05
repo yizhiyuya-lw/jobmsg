@@ -1,6 +1,8 @@
 package com.yizhiyuya.jobmsg.admin.schedule;
 
+import com.yizhiyuya.jobmsg.admin.enums.JobExpiredPolicyEnum;
 import com.yizhiyuya.jobmsg.admin.mapper.JobInfoMapper;
+import com.yizhiyuya.jobmsg.admin.trigger.TriggerHandler;
 import com.yizhiyuya.jobmsg.admin.util.SpringBeanFactoryUtil;
 import com.yizhiyuya.jobmsg.job.common.exception.JobCoreException;
 import com.yizhiyuya.jobmsg.job.common.model.JobInfo;
@@ -28,6 +30,8 @@ public class JobScheduleHandler {
     }
 
     private JobInfoMapper jobInfoMapper;
+
+    private TriggerHandler triggerHandler;
 
     /**
      * 扫描线程运行标志
@@ -84,7 +88,11 @@ public class JobScheduleHandler {
                                 //updateJobNextTriggerTime(jobInfo, getJobNextTriggerTime(jobInfo));
                             }
                             try {
-                                updateJobNextTriggerTime(jobInfo, getJobNextTriggerTime(jobInfo));
+                                long afterTime = triggerNextTime;
+                                if (triggerNextTime < currentTimeMillis) {
+                                    afterTime = currentTimeMillis;
+                                }
+                                updateJobNextTriggerTime(jobInfo, getJobNextTriggerTime(jobInfo, afterTime));
                             } catch (JobCoreException e) {
                                 log.info("任务id: {} 更新下一次执行时间异常: {}", e.getMessage(), e);
                                 // todo 发送告警消息
@@ -159,6 +167,7 @@ public class JobScheduleHandler {
      */
     private void preparedJobSchedule() {
         this.jobInfoMapper = SpringBeanFactoryUtil.getBeanByType(JobInfoMapper.class);
+        this.triggerHandler = TriggerHandler.getInstance();
     }
 
     /**
@@ -182,7 +191,7 @@ public class JobScheduleHandler {
      * @param jobInfo
      */
     private void createTriggerAndExecute(JobInfo jobInfo) {
-        log.info("当前正在执行的任务: {}", jobInfo);
+        triggerHandler.addTrigger(jobInfo);
     }
 
     /**
@@ -190,7 +199,12 @@ public class JobScheduleHandler {
      * @param jobInfo
      */
     private void dealExpireJob(JobInfo jobInfo) {
-
+        JobExpiredPolicyEnum expiredPolicyEnum = JobExpiredPolicyEnum.match(jobInfo.getExpiredPolicy(), JobExpiredPolicyEnum.SKIP);
+        if (JobExpiredPolicyEnum.SKIP == expiredPolicyEnum) {
+            log.info("任务过期跳过执行，任务信息：{}", jobInfo);
+        } else if (JobExpiredPolicyEnum.EXECUTE_ONCE == expiredPolicyEnum) {
+            createTriggerAndExecute(jobInfo);
+        }
     }
 
     /**
@@ -198,10 +212,10 @@ public class JobScheduleHandler {
      * @param jobInfo
      * @return
      */
-    private long getJobNextTriggerTime(JobInfo jobInfo) throws JobCoreException {
+    private long getJobNextTriggerTime(JobInfo jobInfo, long afterTime) throws JobCoreException {
         try {
             CronExpression cronExpression = new CronExpression(jobInfo.getScheduleConf());
-            Date nextValidTimeAfter = cronExpression.getNextValidTimeAfter(new Date(jobInfo.getTriggerNextTime()));
+            Date nextValidTimeAfter = cronExpression.getNextValidTimeAfter(new Date(afterTime));
             return nextValidTimeAfter.getTime();
         } catch (ParseException e) {
             throw new JobCoreException("cron表达式解析异常", e);
